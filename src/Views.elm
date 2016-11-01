@@ -32,7 +32,23 @@ functions =
     [ String.reverse
     , String.map Char.toUpper
     , String.words >> List.intersperse "👏" >> String.join " "
+    , capitalizeFirstLetterInWords
     ]
+
+
+capitalizeFirstLetterInWords : String -> String
+capitalizeFirstLetterInWords =
+    String.words
+        >> List.map
+            (\w ->
+                case String.uncons w of
+                    Just ( c, s ) ->
+                        String.cons (Char.toUpper c) s
+
+                    Nothing ->
+                        w
+            )
+        >> String.join " "
 
 
 addColorToLongStrings : String -> Html Msg

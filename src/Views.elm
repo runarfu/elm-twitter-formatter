@@ -14,7 +14,7 @@ tweetMaxLength =
 
 view : Model -> Html Msg
 view model =
-    div []
+    div [ style [ ( "text-align", "center" ) ] ]
         [ h1 [] [ text "Twitter Formatter" ]
         , p [] [ textarea [ onInput SetText ] [ text model ] ]
         , viewFormatted model

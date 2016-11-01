@@ -20,7 +20,7 @@ view model =
 viewFormatted : Model -> Html Msg
 viewFormatted model =
     div []
-        (List.map (\f -> p [] [ textarea [] [ text (f model) ] ]) functions)
+        (List.map (\f -> p [] [ text (f model) ]) functions)
 
 
 functions : List (String -> String)

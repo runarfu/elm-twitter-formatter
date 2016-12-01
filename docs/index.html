@@ -8227,117 +8227,134 @@ var _elm_lang$html$Html_Events$Options = F2(
 	function (a, b) {
 		return {stopPropagation: a, preventDefault: b};
 	});
+var _runarfu$elm_twitter_formatter$Types$Model = F2(
+	function (a, b) {
+		return {input: a, formatters: b};
+	});
+var _runarfu$elm_twitter_formatter$Types$TwitterFormatter = F4(
+	function (a, b, c, d) {
+		return {id: a, name: b, enabled: c, formatFunction: d};
+	});
+var _runarfu$elm_twitter_formatter$Types$Toggle = function (a) {
+	return {ctor: 'Toggle', _0: a};
+};
 var _runarfu$elm_twitter_formatter$Types$SetText = function (a) {
 	return {ctor: 'SetText', _0: a};
 };
-var _runarfu$elm_twitter_formatter$Views$capitalizeFirstLetterInWords = function (_p0) {
+var _runarfu$elm_twitter_formatter$TwitterFormats$uppercaseFirstLetter = function (word) {
+	var _p0 = _elm_lang$core$String$toList(word);
+	if (_p0.ctor === '::') {
+		return _elm_lang$core$String$fromList(
+			{
+				ctor: '::',
+				_0: _elm_lang$core$Char$toUpper(_p0._0),
+				_1: _p0._1
+			});
+	} else {
+		return word;
+	}
+};
+var _runarfu$elm_twitter_formatter$TwitterFormats$uppercaseFirstLetterInEveryWord = function (string) {
 	return A2(
 		_elm_lang$core$String$join,
 		' ',
 		A2(
 			_elm_lang$core$List$map,
-			function (w) {
-				var _p1 = _elm_lang$core$String$uncons(w);
-				if (_p1.ctor === 'Just') {
-					return A2(
-						_elm_lang$core$String$cons,
-						_elm_lang$core$Char$toUpper(_p1._0._0),
-						_p1._0._1);
-				} else {
-					return w;
-				}
-			},
-			_elm_lang$core$String$words(_p0)));
+			_runarfu$elm_twitter_formatter$TwitterFormats$uppercaseFirstLetter,
+			A2(_elm_lang$core$String$split, ' ', string)));
 };
-var _runarfu$elm_twitter_formatter$Views$functions = {
-	ctor: '::',
-	_0: _elm_lang$core$String$reverse,
-	_1: {
+var _runarfu$elm_twitter_formatter$TwitterFormats$allFormatters = A2(
+	_elm_lang$core$List$indexedMap,
+	F2(
+		function (index, _p1) {
+			var _p2 = _p1;
+			return A4(_runarfu$elm_twitter_formatter$Types$TwitterFormatter, index, _p2._0, false, _p2._1);
+		}),
+	{
 		ctor: '::',
-		_0: _elm_lang$core$String$map(_elm_lang$core$Char$toUpper),
+		_0: {
+			ctor: '_Tuple2',
+			_0: 'BLOKKBOKSTAVER',
+			_1: _elm_lang$core$String$map(_elm_lang$core$Char$toUpper)
+		},
 		_1: {
 			ctor: '::',
-			_0: function (_p2) {
-				return A2(
-					_elm_lang$core$String$join,
-					' ',
-					A2(
-						_elm_lang$core$List$intersperse,
-						'👏',
-						_elm_lang$core$String$words(_p2)));
+			_0: {
+				ctor: '_Tuple2',
+				_0: '👏 mellom ordene',
+				_1: function (_p3) {
+					return A2(
+						_elm_lang$core$String$join,
+						' ',
+						A2(
+							_elm_lang$core$List$intersperse,
+							'👏',
+							_elm_lang$core$String$words(_p3)));
+				}
 			},
 			_1: {
 				ctor: '::',
-				_0: _runarfu$elm_twitter_formatter$Views$capitalizeFirstLetterInWords,
-				_1: {ctor: '[]'}
-			}
-		}
-	}
-};
-var _runarfu$elm_twitter_formatter$Views$tweetMaxLength = 140;
-var _runarfu$elm_twitter_formatter$Views$addColorToLongStrings = function (s) {
-	if (_elm_lang$core$Native_Utils.cmp(
-		_elm_lang$core$String$length(s),
-		_runarfu$elm_twitter_formatter$Views$tweetMaxLength) > 0) {
-		var notOkPart = A2(_elm_lang$core$String$dropLeft, _runarfu$elm_twitter_formatter$Views$tweetMaxLength, s);
-		var okPart = A2(_elm_lang$core$String$dropRight, _runarfu$elm_twitter_formatter$Views$tweetMaxLength, s);
-		return A2(
-			_elm_lang$html$Html$p,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(okPart),
+				_0: {ctor: '_Tuple2', _0: 'Stor Forbokstav I Alle Ord', _1: _runarfu$elm_twitter_formatter$TwitterFormats$uppercaseFirstLetterInEveryWord},
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$span,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$style(
-								{
-									ctor: '::',
-									_0: {ctor: '_Tuple2', _0: 'background-color', _1: 'red'},
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(notOkPart),
-							_1: {ctor: '[]'}
-						}),
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'M e l l o m r o m',
+						_1: function (_p4) {
+							return _elm_lang$core$String$fromList(
+								A2(
+									_elm_lang$core$List$intersperse,
+									_elm_lang$core$Native_Utils.chr(' '),
+									_elm_lang$core$String$toList(_p4)));
+						}
+					},
 					_1: {ctor: '[]'}
 				}
-			});
-	} else {
-		return A2(
-			_elm_lang$html$Html$p,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(s),
-				_1: {ctor: '[]'}
-			});
-	}
-};
+			}
+		}
+	});
 var _runarfu$elm_twitter_formatter$Views$viewFormatted = function (model) {
+	var transform = F2(
+		function (formatter, string) {
+			return formatter.enabled ? formatter.formatFunction(string) : string;
+		});
+	var formatted = A3(_elm_lang$core$List$foldr, transform, model.input, model.formatters);
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(formatted),
+			_1: {ctor: '[]'}
+		});
+};
+var _runarfu$elm_twitter_formatter$Views$toggles = function (model) {
+	var txt = F2(
+		function (name, enabled) {
+			return enabled ? A2(_elm_lang$core$Basics_ops['++'], name, ' ✓') : name;
+		});
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		A2(
 			_elm_lang$core$List$map,
-			function (f) {
+			function (formatter) {
 				return A2(
-					_elm_lang$html$Html$p,
-					{ctor: '[]'},
+					_elm_lang$html$Html$button,
 					{
 						ctor: '::',
-						_0: _runarfu$elm_twitter_formatter$Views$addColorToLongStrings(
-							f(model)),
+						_0: _elm_lang$html$Html_Events$onClick(
+							_runarfu$elm_twitter_formatter$Types$Toggle(formatter.id)),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							A2(txt, formatter.name, formatter.enabled)),
 						_1: {ctor: '[]'}
 					});
 			},
-			_runarfu$elm_twitter_formatter$Views$functions));
+			model.formatters));
 };
 var _runarfu$elm_twitter_formatter$Views$view = function (model) {
 	return A2(
@@ -8355,34 +8372,31 @@ var _runarfu$elm_twitter_formatter$Views$view = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$h1,
+				_elm_lang$html$Html$p,
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Twitter Formatter'),
+					_0: A2(
+						_elm_lang$html$Html$textarea,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onInput(_runarfu$elm_twitter_formatter$Types$SetText),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$autofocus(true),
+								_1: {ctor: '[]'}
+							}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(''),
+							_1: {ctor: '[]'}
+						}),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
 				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$p,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$textarea,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onInput(_runarfu$elm_twitter_formatter$Types$SetText),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(model),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}),
+				_0: _runarfu$elm_twitter_formatter$Views$toggles(model),
 				_1: {
 					ctor: '::',
 					_0: _runarfu$elm_twitter_formatter$Views$viewFormatted(model),
@@ -8391,13 +8405,36 @@ var _runarfu$elm_twitter_formatter$Views$view = function (model) {
 			}
 		});
 };
+var _runarfu$elm_twitter_formatter$Views$tweetMaxLength = 140;
+var _runarfu$elm_twitter_formatter$State$toggleId = F2(
+	function (formatters, id) {
+		return A2(
+			_elm_lang$core$List$map,
+			function (formatter) {
+				return _elm_lang$core$Native_Utils.eq(formatter.id, id) ? _elm_lang$core$Native_Utils.update(
+					formatter,
+					{enabled: !formatter.enabled}) : formatter;
+			},
+			formatters);
+	});
 var _runarfu$elm_twitter_formatter$State$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		return _p0._0;
+		if (_p0.ctor === 'SetText') {
+			return _elm_lang$core$Native_Utils.update(
+				model,
+				{input: _p0._0});
+		} else {
+			return _elm_lang$core$Native_Utils.update(
+				model,
+				{
+					formatters: A2(_runarfu$elm_twitter_formatter$State$toggleId, model.formatters, _p0._0)
+				});
+		}
 	});
+var _runarfu$elm_twitter_formatter$Main$initModel = {input: '', formatters: _runarfu$elm_twitter_formatter$TwitterFormats$allFormatters};
 var _runarfu$elm_twitter_formatter$Main$main = _elm_lang$html$Html$beginnerProgram(
-	{model: '', view: _runarfu$elm_twitter_formatter$Views$view, update: _runarfu$elm_twitter_formatter$State$update})();
+	{model: _runarfu$elm_twitter_formatter$Main$initModel, view: _runarfu$elm_twitter_formatter$Views$view, update: _runarfu$elm_twitter_formatter$State$update})();
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
 if (typeof _runarfu$elm_twitter_formatter$Main$main !== 'undefined') {

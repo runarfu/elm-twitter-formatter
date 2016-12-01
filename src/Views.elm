@@ -6,6 +6,7 @@ import Html.Attributes exposing (..)
 import String
 import Char
 import Types exposing (..)
+import TwitterFormats exposing (..)
 
 
 tweetMaxLength =
@@ -15,55 +16,40 @@ tweetMaxLength =
 view : Model -> Html Msg
 view model =
     div [ style [ ( "text-align", "center" ) ] ]
-        [ h1 [] [ text "Twitter Formatter" ]
-        , p [] [ textarea [ onInput SetText ] [ text model ] ]
+        [ p [] [ textarea [ onInput SetText, autofocus True ] [ text "" ] ]
+        , toggles model
         , viewFormatted model
         ]
 
 
+toggles : Model -> Html Msg
+toggles model =
+    let
+        txt name enabled =
+            if enabled then
+                name ++ " ✓"
+            else
+                name
+    in
+        div []
+            (List.map
+                (\formatter ->
+                    button [ onClick (Toggle formatter.id) ] [ text (txt formatter.name formatter.enabled) ]
+                )
+                model.formatters
+            )
+
+
 viewFormatted : Model -> Html Msg
 viewFormatted model =
-    div []
-        (List.map (\f -> p [] [ addColorToLongStrings (f model) ]) functions)
+    let
+        transform formatter string =
+            if formatter.enabled then
+                formatter.formatFunction string
+            else
+                string
 
-
-functions : List (String -> String)
-functions =
-    [ String.reverse
-    , String.map Char.toUpper
-    , String.words >> List.intersperse "👏" >> String.join " "
-    , capitalizeFirstLetterInWords
-    ]
-
-
-capitalizeFirstLetterInWords : String -> String
-capitalizeFirstLetterInWords =
-    String.words
-        >> List.map
-            (\w ->
-                case String.uncons w of
-                    Just ( c, s ) ->
-                        String.cons (Char.toUpper c) s
-
-                    Nothing ->
-                        w
-            )
-        >> String.join " "
-
-
-addColorToLongStrings : String -> Html Msg
-addColorToLongStrings s =
-    if String.length s > tweetMaxLength then
-        let
-            okPart =
-                String.dropRight tweetMaxLength s
-
-            notOkPart =
-                String.dropLeft tweetMaxLength s
-        in
-            p []
-                [ text okPart
-                , span [ style [ ( "background-color", "red" ) ] ] [ text notOkPart ]
-                ]
-    else
-        p [] [ text s ]
+        formatted =
+            List.foldr transform model.input model.formatters
+    in
+        div [] [ text formatted ]

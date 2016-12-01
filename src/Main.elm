@@ -1,15 +1,21 @@
 module Main exposing (..)
 
 import Html
+import Types exposing (..)
 import Views exposing (..)
 import State exposing (..)
-import Types exposing (..)
+import TwitterFormats
 
 
-main : Program Never String Msg
+main : Program Never Model Msg
 main =
     Html.beginnerProgram
-        { model = ""
+        { model = initModel
         , view = view
         , update = update
         }
+
+
+initModel : Model
+initModel =
+    { input = "", formatters = TwitterFormats.allFormatters }

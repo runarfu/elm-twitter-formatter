@@ -1,18 +1,19 @@
-module Main exposing (..)
+port module Main exposing (..)
 
 import Html
-import Types exposing (..)
-import Views exposing (..)
 import State exposing (..)
 import TwitterFormats
+import Types exposing (..)
+import Views exposing (..)
 
 
 main : Program Never Model Msg
 main =
-    Html.beginnerProgram
-        { model = initModel
+    Html.program
+        { init = ( initModel, Cmd.none )
         , view = view
         , update = update
+        , subscriptions = \_ -> Sub.none
         }
 
 

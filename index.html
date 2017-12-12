@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>TwitterFormatter</title>
+</head>
+
+<body>
+  <div id="main"></div>
+  <script type="text/javascript" src="main.js"></script>
+  <script src="clipboard-polyfill.js"></script>
+  <script type="text/javascript">
+    var node = document.getElementById('main');
+    var app = Elm.Main.embed(node);
+    app.ports.copyToClipboard.subscribe(function(iconName) {
+      var dt = new clipboard.DT();
+      var text = document.getElementById('formatted').innerText;
+      dt.setData("text/plain", text);
+      clipboard.write(dt);
+    });
+  </script>
+</body>.
+
+</html>

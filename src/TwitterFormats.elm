@@ -1,7 +1,7 @@
 module TwitterFormats exposing (..)
 
-import String
 import Char
+import String
 import Types exposing (..)
 
 
@@ -34,7 +34,7 @@ uppercaseFirstLetter : String -> String
 uppercaseFirstLetter word =
     case String.toList word of
         first :: rest ->
-            (Char.toUpper first)
+            Char.toUpper first
                 :: rest
                 |> String.fromList
 

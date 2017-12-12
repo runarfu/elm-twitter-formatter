@@ -1,16 +1,9 @@
 module Views exposing (view)
 
 import Html exposing (..)
-import Html.Events exposing (..)
 import Html.Attributes exposing (..)
-import String
-import Char
+import Html.Events exposing (..)
 import Types exposing (..)
-import TwitterFormats exposing (..)
-
-
-tweetMaxLength =
-    140
 
 
 view : Model -> Html Msg
@@ -19,6 +12,7 @@ view model =
         [ p [] [ textarea [ onInput SetText, autofocus True ] [ text "" ] ]
         , toggles model
         , viewFormatted model
+        , button [ onClick CopyToClipboard ] [ text "Copy to clipboard" ]
         ]
 
 
@@ -31,13 +25,13 @@ toggles model =
             else
                 name
     in
-        div []
-            (List.map
-                (\formatter ->
-                    button [ onClick (Toggle formatter.id) ] [ text (txt formatter.name formatter.enabled) ]
-                )
-                model.formatters
+    p []
+        (List.map
+            (\formatter ->
+                button [ onClick (Toggle formatter.id) ] [ text (txt formatter.name formatter.enabled) ]
             )
+            model.formatters
+        )
 
 
 viewFormatted : Model -> Html Msg
@@ -51,5 +45,14 @@ viewFormatted model =
 
         formatted =
             List.foldr transform model.input model.formatters
+
+        isWithinCharacterLimit =
+            String.length formatted <= 280
+
+        styling =
+            if isWithinCharacterLimit then
+                style []
+            else
+                style [ ( "background-color", "red" ) ]
     in
-        div [] [ text formatted ]
+    p [ id "formatted", styling ] [ text formatted ]

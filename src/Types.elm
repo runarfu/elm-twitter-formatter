@@ -18,3 +18,4 @@ type alias TwitterFormatter =
 type Msg
     = SetText String
     | Toggle Int
+    | CopyToClipboard
